@@ -5,11 +5,13 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
 
 ## Technology Stack
 
-- **Engine**: [CHOOSE: Web / Godot 4 / Unity / Unreal Engine 5]
-- **Language**: [CHOOSE: TypeScript / GDScript / C# / C++ / Blueprint]
+- **Engine**: Web (Vite 8.3.4, TypeScript 7.0.2) — client de la région visitable, dans `src/`
+- **Language**: TypeScript (client) ; Python 3.11+ sans dépendance obligatoire (moteur de simulation et API, dans `server/`)
 - **Version Control**: Git with trunk-based development
-- **Build System**: [SPECIFY after choosing engine]
-- **Asset Pipeline**: [SPECIFY after choosing engine]
+- **Build System**: Vite — `npm run build` for `dist/`, `npm run build:single` for one self-contained HTML file
+- **Asset Pipeline**: pixel art dessiné par le code (`src/art/`), aucun fichier image ; données de scénario dans `data/`
+- **Simulation**: `python -m ressources_egales` (voir `README-JEU.md`) ; SQLite par défaut, PostgreSQL via `--db postgresql://…`
+- **Game**: *Ressources égales* — cadrage dans `../Dossier_de_cadrage_Ressources_egales.docx`, résumé dans `design/game-brief.md`
 
 > **Note**: Engine-specialist agents exist for Godot, Unity, and Unreal with
 > dedicated sub-specialists. Use the set matching your engine.
@@ -25,6 +27,7 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
      step and /project-settings (engine.name) write
      @docs/engine-reference/<engine>/VERSION.md here for the chosen engine. Skills
      that need the pinned version read that file on demand either way. -->
+@docs/engine-reference/web/VERSION.md
 
 
 ## Technical Preferences
