@@ -25,3 +25,38 @@ framework:
 # here. `/project-settings --local <key>=<value>` writes there; `/project-settings <key>=<value>`
 # edits this file. See `.claude/docs/config-resolution.md` for the full
 # precedence order.
+
+project:
+  name: "Ressources égales"
+  goal: "Prototype pilote : région visitable, moteur journalier rejouable, comparaison A/B/C"
+
+modes:
+  rigor: minimal
+  automation: autonomous
+
+engine:
+  name: "Web"
+  version: "8.3.4"
+  language: "TypeScript"
+  rendering: "Canvas 2D"
+  physics: "none"
+
+specialists:
+  code: "lead-programmer"
+  shader: "lead-programmer"
+  ui: "lead-programmer"
+  additional: []
+
+naming:
+  classes: PascalCase
+  variables: camelCase
+  constants: SCREAMING_SNAKE
+  signals: on_event_name
+  files: kebab-case
+  scenes: snake_case
+
+commands:
+  build: "npm run build"
+  test: "npm test"
+  run: "npm run dev"
+  smoke: "npm run smoke"

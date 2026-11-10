@@ -173,3 +173,13 @@ $RECYCLE.BIN/
 # the project root. Anchored so a reports/ folder elsewhere stays tracked.
 /reports/
 /test-results/
+
+# === Web: Vite, Vitest and Playwright output ===
+dist-single/
+.vitest/
+/playwright-report/
+
+# === Ressources égales ===
+*.db
+*.db-wal
+*.db-shm

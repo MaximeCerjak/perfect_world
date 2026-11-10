@@ -1,0 +1,46 @@
+{
+ "version": "0.1.0",
+ "note": "Trois trajectoires de la même année. Seuls les droits sur l'entrepôt changent ; météo, population, capacités et autres événements sont identiques.",
+ "graine": 20261110,
+ "jours": 365,
+ "cas": {
+  "A": {
+   "nom": "Entrepôt commun",
+   "description": "Réponse de la région à la sécheresse avec la règle commune.",
+   "evenements": []
+  },
+  "B": {
+   "nom": "Entrepôt acquis, accès maintenu",
+   "description": "Effet de l'acquisition avec les mêmes conditions d'usage que dans le cas A.",
+   "evenements": [
+    {
+     "cle": "achat-test-0001",
+     "type": "achat.confirme",
+     "jour_effet": 150,
+     "compte": "compte-test-01",
+     "bien": "depot",
+     "part": 0.4,
+     "acces": "commun",
+     "duree_jours": null
+    }
+   ]
+  },
+  "C": {
+   "nom": "Entrepôt acquis, accès en partie réservé",
+   "description": "Conséquences du changement de capacité accessible, compte tenu des solutions de secours.",
+   "evenements": [
+    {
+     "cle": "achat-test-0001",
+     "type": "achat.confirme",
+     "jour_effet": 150,
+     "compte": "compte-test-01",
+     "bien": "depot",
+     "part": 0.4,
+     "acces": "reserve",
+     "usage": "Flux privés du titulaire",
+     "duree_jours": null
+    }
+   ]
+  }
+ }
+}

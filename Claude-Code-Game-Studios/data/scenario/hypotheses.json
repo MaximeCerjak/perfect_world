@@ -1,0 +1,544 @@
+{
+ "version": "0.1.0",
+ "note": "Chaque valeur porte son unité, sa nature (ordre de grandeur tiré de données réelles, hypothèse du prototype ou choix de société), l'effet attendu et la plage à tester. Les quantités liées au territoire sont dans region-pilote.json.",
+ "hypotheses": {
+  "alimentation.besoin_kg_personne_jour": {
+   "valeur": 1.2,
+   "unite": "kg/personne/jour",
+   "nature": "ordre de grandeur",
+   "effet": "Fixe la demande quotidienne de denrées de chaque foyer.",
+   "plage": [
+    1.0,
+    1.5
+   ],
+   "source": "À recaler sur les rendements et productions de la statistique agricole annuelle (Agreste, S7)."
+  },
+  "alimentation.perte_grenier_par_jour": {
+   "valeur": 0.0004,
+   "unite": "fraction/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Pertes de stockage dans les greniers communaux.",
+   "plage": [
+    0.0001,
+    0.001
+   ]
+  },
+  "alimentation.perte_depot_par_jour": {
+   "valeur": 0.0003,
+   "unite": "fraction/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Pertes de stockage à l'entrepôt lorsque la conservation est alimentée.",
+   "plage": [
+    0.0001,
+    0.001
+   ]
+  },
+  "alimentation.perte_sans_froid_facteur": {
+   "valeur": 4.0,
+   "unite": "multiplicateur",
+   "nature": "hypothèse du prototype",
+   "effet": "Aggrave les pertes quand l'énergie de conservation manque.",
+   "plage": [
+    2,
+    8
+   ]
+  },
+  "alimentation.perte_champ_par_jour": {
+   "valeur": 0.03,
+   "unite": "fraction/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Part d'une récolte mûre perdue chaque jour après la fenêtre de récolte.",
+   "plage": [
+    0.01,
+    0.06
+   ]
+  },
+  "alimentation.fenetre_recolte_jours": {
+   "valeur": 25,
+   "unite": "jours",
+   "nature": "hypothèse du prototype",
+   "effet": "Durée pendant laquelle une récolte mûre attend sans perte.",
+   "plage": [
+    10,
+    40
+   ]
+  },
+  "alimentation.recolte_h_par_tonne": {
+   "valeur": 22,
+   "unite": "heures/tonne",
+   "nature": "hypothèse du prototype",
+   "effet": "Travail agricole mobilisé par la récolte et son expédition.",
+   "plage": [
+    12,
+    35
+   ]
+  },
+  "alimentation.exposant_eau": {
+   "valeur": 1.3,
+   "unite": "sans unité",
+   "nature": "hypothèse du prototype",
+   "effet": "Sensibilité du rendement à la satisfaction en eau cumulée.",
+   "plage": [
+    1.0,
+    2.0
+   ]
+  },
+  "alimentation.exposant_soin": {
+   "valeur": 0.7,
+   "unite": "sans unité",
+   "nature": "hypothèse du prototype",
+   "effet": "Sensibilité du rendement au travail de culture cumulé.",
+   "plage": [
+    0.4,
+    1.0
+   ]
+  },
+  "alimentation.reserve_sol_max_m3_ha": {
+   "valeur": 320,
+   "unite": "m³/ha",
+   "nature": "hypothèse du prototype",
+   "effet": "Eau de pluie que le sol peut retenir pour la culture.",
+   "plage": [
+    150,
+    500
+   ]
+  },
+  "eau.besoin_m3_personne_jour": {
+   "valeur": 0.12,
+   "unite": "m³/personne/jour",
+   "nature": "ordre de grandeur",
+   "effet": "Demande domestique des foyers.",
+   "plage": [
+    0.08,
+    0.16
+   ],
+   "source": "Ordre de grandeur d'une consommation domestique ; série de débits à reconstituer avec Hub'Eau (S6)."
+  },
+  "eau.part_retour_domestique": {
+   "valeur": 0.8,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "Part de l'eau domestique rendue à la rivière en aval.",
+   "plage": [
+    0.6,
+    0.9
+   ]
+  },
+  "eau.seuil_ecologique_m3_jour": {
+   "valeur": 220,
+   "unite": "m³/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Débit laissé au milieu naturel sous chaque prélèvement.",
+   "plage": [
+    120,
+    400
+   ]
+  },
+  "eau.pompage_h_par_m3": {
+   "valeur": 0.02,
+   "unite": "heures/m³",
+   "nature": "hypothèse du prototype",
+   "effet": "Travail technique pour faire tourner les pompes.",
+   "plage": [
+    0.01,
+    0.04
+   ]
+  },
+  "eau.heures_corvee_par_m3_manquant": {
+   "valeur": 6,
+   "unite": "heures/m³",
+   "nature": "hypothèse du prototype",
+   "effet": "Temps passé par les foyers à compenser l'eau domestique manquante.",
+   "plage": [
+    2,
+    12
+   ]
+  },
+  "energie.budget_kwh_jour": {
+   "valeur": 900,
+   "unite": "kWh/jour",
+   "nature": "ordre de grandeur",
+   "effet": "Énergie disponible pour les pompes, la conservation et le transport.",
+   "plage": [
+    500,
+    1400
+   ],
+   "source": "Variabilité régionale à situer avec éCO2mix (S9) ; consommations des pompes, du froid et des transports documentées ici séparément."
+  },
+  "energie.part_hydraulique": {
+   "valeur": 0.3,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "Part du budget qui baisse avec le débit de la rivière.",
+   "plage": [
+    0.0,
+    0.6
+   ]
+  },
+  "energie.pompage_kwh_par_m3": {
+   "valeur": 0.5,
+   "unite": "kWh/m³",
+   "nature": "hypothèse du prototype",
+   "effet": "Coût énergétique du pompage.",
+   "plage": [
+    0.3,
+    0.9
+   ]
+  },
+  "energie.conservation_kwh_par_tonne_jour": {
+   "valeur": 0.9,
+   "unite": "kWh/tonne/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Coût énergétique de la conservation des stocks.",
+   "plage": [
+    0.4,
+    2.0
+   ]
+  },
+  "energie.transport_kwh_par_heure": {
+   "valeur": 5.0,
+   "unite": "kWh/heure de trajet",
+   "nature": "hypothèse du prototype",
+   "effet": "Coût énergétique des livraisons et tournées.",
+   "plage": [
+    2,
+    10
+   ]
+  },
+  "transport.charge_vehicule_kg": {
+   "valeur": 300,
+   "unite": "kg/trajet",
+   "nature": "hypothèse du prototype",
+   "effet": "Charge d'un trajet d'équipe.",
+   "plage": [
+    150,
+    600
+   ]
+  },
+  "transport.equipage": {
+   "valeur": 2,
+   "unite": "personnes",
+   "nature": "hypothèse du prototype",
+   "effet": "Personnes mobilisées par trajet d'équipe.",
+   "plage": [
+    1,
+    3
+   ]
+  },
+  "transport.manutention_h_par_tonne": {
+   "valeur": 2.0,
+   "unite": "heures/tonne",
+   "nature": "hypothèse du prototype",
+   "effet": "Travail de l'équipe du Bourg pour chaque tonne sortie de l'entrepôt.",
+   "plage": [
+    1,
+    4
+   ]
+  },
+  "transport.charge_foyer_kg": {
+   "valeur": 18,
+   "unite": "kg/trajet",
+   "nature": "hypothèse du prototype",
+   "effet": "Ce qu'un membre d'un foyer rapporte d'un trajet individuel.",
+   "plage": [
+    10,
+    30
+   ]
+  },
+  "transport.attente_secours_h": {
+   "valeur": 1.0,
+   "unite": "heures",
+   "nature": "hypothèse du prototype",
+   "effet": "Temps de chargement et d'attente à la réserve de secours.",
+   "plage": [
+    0.5,
+    2
+   ]
+  },
+  "temps.heures_essentielles": {
+   "valeur": 11,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Sommeil, repas et hygiène, retirés avant toute activité.",
+   "plage": [
+    10,
+    12
+   ]
+  },
+  "temps.travail_actif_h": {
+   "valeur": 7,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Heures de travail d'un actif de 16 à 64 ans.",
+   "plage": [
+    6,
+    8
+   ]
+  },
+  "temps.travail_aine_h": {
+   "valeur": 3,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Heures de travail d'un aîné de 65 à 74 ans.",
+   "plage": [
+    0,
+    4
+   ]
+  },
+  "temps.etude_h": {
+   "valeur": 6,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Heures d'étude d'un enfant de 6 à 15 ans.",
+   "plage": [
+    4,
+    7
+   ]
+  },
+  "temps.soin_petit_enfant_h": {
+   "valeur": 3,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Soins du foyer pour un enfant de moins de 6 ans.",
+   "plage": [
+    2,
+    5
+   ]
+  },
+  "temps.soin_enfant_h": {
+   "valeur": 1,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Soins du foyer pour un enfant de 6 à 15 ans.",
+   "plage": [
+    0.5,
+    2
+   ]
+  },
+  "temps.soin_grand_aine_h": {
+   "valeur": 1.5,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Soins du foyer pour un aîné de 80 ans et plus.",
+   "plage": [
+    0.5,
+    3
+   ]
+  },
+  "temps.ravitaillement_courant_h": {
+   "valeur": 0.4,
+   "unite": "heures/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Temps de ravitaillement d'un foyer au grenier de sa commune.",
+   "plage": [
+    0.2,
+    1
+   ]
+  },
+  "temps.services_h_par_habitant": {
+   "valeur": 0.9,
+   "unite": "heures/habitant/jour",
+   "nature": "hypothèse du prototype",
+   "effet": "Besoin de travail des services (soin, école, atelier).",
+   "plage": [
+    0.6,
+    1.2
+   ]
+  },
+  "temps.efficacite_debutant": {
+   "valeur": 0.75,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "Efficacité d'une personne qui débute dans un métier.",
+   "plage": [
+    0.5,
+    0.9
+   ]
+  },
+  "temps.apprentissage_jours": {
+   "valeur": 365,
+   "unite": "jours",
+   "nature": "hypothèse du prototype",
+   "effet": "Durée caractéristique d'apprentissage d'un métier.",
+   "plage": [
+    180,
+    720
+   ]
+  },
+  "temps.efficacite_renfort": {
+   "valeur": 0.6,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "Efficacité d'un renfort venu des services vers les champs.",
+   "plage": [
+    0.4,
+    0.8
+   ]
+  },
+  "entretien.perte_etat_par_heure": {
+   "valeur": 0.003,
+   "unite": "fraction/heure reportée",
+   "nature": "hypothèse du prototype",
+   "effet": "Baisse de capacité d'une pompe par heure d'entretien en retard.",
+   "plage": [
+    0.002,
+    0.008
+   ]
+  },
+  "entretien.rattrapage_max": {
+   "valeur": 0.5,
+   "unite": "fraction du besoin",
+   "nature": "hypothèse du prototype",
+   "effet": "Part de l'arriéré rattrapable chaque jour en plus de l'entretien courant.",
+   "plage": [
+    0.25,
+    1.0
+   ]
+  },
+  "entretien.etat_arret": {
+   "valeur": 0.35,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "État sous lequel une pompe s'arrête.",
+   "plage": [
+    0.2,
+    0.5
+   ]
+  },
+  "entretien.etat_alerte": {
+   "valeur": 0.85,
+   "unite": "fraction",
+   "nature": "hypothèse du prototype",
+   "effet": "État sous lequel la pompe est signalée dégradée.",
+   "plage": [
+    0.7,
+    0.95
+   ]
+  },
+  "logistique.seuil_alerte_jours": {
+   "valeur": 6,
+   "unite": "jours de réserve",
+   "nature": "hypothèse du prototype",
+   "effet": "Sous ce seuil, une commune mal servie par l'entrepôt cherche un secours.",
+   "plage": [
+    3,
+    10
+   ]
+  },
+  "logistique.regle_partage_depot": {
+   "valeur": "proportionnel",
+   "unite": "règle",
+   "nature": "choix de société",
+   "effet": "Partage de la capacité commune de l'entrepôt entre les communes qui demandent.",
+   "plage": [
+    "proportionnel",
+    "priorite_bourg"
+   ]
+  },
+  "logistique.seuil_trajet_jours": {
+   "valeur": 0.5,
+   "unite": "jours de besoin",
+   "nature": "hypothèse du prototype",
+   "effet": "Manque cumulé à partir duquel un foyer part chercher sa part à la réserve de secours.",
+   "plage": [
+    0.25,
+    2
+   ]
+  },
+  "entraide.active": {
+   "valeur": true,
+   "unite": "booléen",
+   "nature": "choix de société",
+   "effet": "Autorise l'accès de toute la région à la réserve de secours des Rives.",
+   "plage": [
+    true,
+    false
+   ]
+  },
+  "entraide.pret_equipe": {
+   "valeur": true,
+   "unite": "booléen",
+   "nature": "choix de société",
+   "effet": "Les Rives prêtent leur équipe technique si leur planning laisse de la place.",
+   "plage": [
+    true,
+    false
+   ]
+  },
+  "entraide.reserve_propre_jours": {
+   "valeur": 20,
+   "unite": "jours",
+   "nature": "choix de société",
+   "effet": "Jours de besoin que Les Rives gardent pour elles dans la réserve de secours.",
+   "plage": [
+    0,
+    45
+   ]
+  },
+  "vie.natalite_par_an": {
+   "valeur": 0.011,
+   "unite": "naissances/habitant/an",
+   "nature": "ordre de grandeur",
+   "effet": "Rythme des naissances.",
+   "plage": [
+    0.008,
+    0.014
+   ],
+   "source": "Ordres de grandeur démographiques à recaler sur le recensement (Insee, S8)."
+  },
+  "vie.mortalite_par_an": {
+   "valeur": 0.009,
+   "unite": "décès/habitant/an",
+   "nature": "ordre de grandeur",
+   "effet": "Rythme des décès, concentrés sur les âges élevés.",
+   "plage": [
+    0.006,
+    0.012
+   ],
+   "source": "Ordres de grandeur démographiques à recaler sur le recensement (Insee, S8)."
+  },
+  "vie.liens_par_personne_an": {
+   "valeur": 0.5,
+   "unite": "liens/personne/an",
+   "nature": "hypothèse du prototype",
+   "effet": "Rythme auquel se nouent de nouveaux liens.",
+   "plage": [
+    0.2,
+    1.0
+   ]
+  },
+  "vie.changement_activite_par_an": {
+   "valeur": 0.05,
+   "unite": "changements/actif/an",
+   "nature": "hypothèse du prototype",
+   "effet": "Rythme des changements d'activité.",
+   "plage": [
+    0.02,
+    0.1
+   ]
+  },
+  "vie.capacite_logement_facteur": {
+   "valeur": 1.15,
+   "unite": "multiplicateur",
+   "nature": "hypothèse du prototype",
+   "effet": "Places de logement d'une commune rapportées à sa population de départ.",
+   "plage": [
+    1.05,
+    1.4
+   ]
+  },
+  "vie.tailles_foyers": {
+   "valeur": [
+    0.37,
+    0.33,
+    0.13,
+    0.11,
+    0.06
+   ],
+   "unite": "parts des foyers de 1 à 5 personnes",
+   "nature": "ordre de grandeur",
+   "effet": "Structure des foyers au départ.",
+   "source": "Tailles de ménages à recaler sur le recensement (Insee, S8)."
+  }
+ }
+}

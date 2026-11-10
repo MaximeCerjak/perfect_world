@@ -1,0 +1,305 @@
+{
+ "version": "0.1.0",
+ "nom": "Région pilote — bassin versant fictif",
+ "note": "Toutes les quantités sont données pour 1 000 habitants et multipliées par population/1000 au chargement. Noms et positions servent au prototype.",
+ "population_reference": 1000,
+ "jour_zero": {
+  "mois": 3,
+  "jour": 1,
+  "note": "Le jour 0 du monde correspond à un 1er mars : la sécheresse d'été et ses suites tiennent dans une même année simulée."
+ },
+ "communes": [
+  {
+   "id": "source",
+   "nom": "La Source",
+   "part_population": 0.1,
+   "carte": [
+    9,
+    6
+   ],
+   "role": "Capte l'eau et gère une réserve en amont.",
+   "metiers": {
+    "agriculture": 0.1,
+    "technique": 0.032,
+    "services": 0.868
+   },
+   "grenier": {
+    "capacite_kg": 9000,
+    "stock_initial_kg": 1800,
+    "jours_cible": 12,
+    "jours_garde": null
+   },
+   "pompe": {
+    "capacite_m3_jour": 30,
+    "entretien_h_jour": 4
+   }
+  },
+  {
+   "id": "terrasses",
+   "nom": "Les Terrasses",
+   "part_population": 0.18,
+   "carte": [
+    20,
+    13
+   ],
+   "role": "Produit une partie des denrées et les expédie.",
+   "metiers": {
+    "agriculture": 0.62,
+    "technique": 0.09,
+    "services": 0.29
+   },
+   "grenier": {
+    "capacite_kg": 100000,
+    "stock_initial_kg": 36000,
+    "jours_cible": 12,
+    "jours_garde": 380
+   },
+   "pompe": {
+    "capacite_m3_jour": 330,
+    "entretien_h_jour": 12
+   }
+  },
+  {
+   "id": "bourg",
+   "nom": "Le Bourg",
+   "part_population": 0.32,
+   "carte": [
+    33,
+    17
+   ],
+   "role": "Regroupe le dépôt régional, un atelier et des services.",
+   "metiers": {
+    "agriculture": 0.03,
+    "technique": 0.011,
+    "services": 0.959
+   },
+   "grenier": {
+    "capacite_kg": 12000,
+    "stock_initial_kg": 4600,
+    "jours_cible": 12,
+    "jours_garde": null
+   },
+   "pompe": {
+    "capacite_m3_jour": 70,
+    "entretien_h_jour": 6
+   }
+  },
+  {
+   "id": "plaine",
+   "nom": "La Plaine",
+   "part_population": 0.24,
+   "carte": [
+    45,
+    24
+   ],
+   "role": "Combine cultures irriguées et foyers en aval.",
+   "metiers": {
+    "agriculture": 0.42,
+    "technique": 0.0325,
+    "services": 0.5475
+   },
+   "grenier": {
+    "capacite_kg": 70000,
+    "stock_initial_kg": 46500,
+    "jours_cible": 12,
+    "jours_garde": 200
+   },
+   "pompe": {
+    "capacite_m3_jour": 330,
+    "entretien_h_jour": 16
+   }
+  },
+  {
+   "id": "rives",
+   "nom": "Les Rives",
+   "part_population": 0.16,
+   "carte": [
+    56,
+    15
+   ],
+   "role": "Accueille des foyers et une capacité de stockage de secours.",
+   "metiers": {
+    "agriculture": 0.22,
+    "technique": 0.035,
+    "services": 0.745
+   },
+   "grenier": {
+    "capacite_kg": 40000,
+    "stock_initial_kg": 2300,
+    "jours_cible": 12,
+    "jours_garde": 200
+   },
+   "pompe": {
+    "capacite_m3_jour": 210,
+    "entretien_h_jour": 8
+   }
+  }
+ ],
+ "ordre_eau": [
+  "source",
+  "terrasses",
+  "bourg",
+  "plaine",
+  "rives"
+ ],
+ "routes": [
+  {
+   "id": "route-source",
+   "nom": "Route du captage",
+   "de": "bourg",
+   "vers": "source",
+   "duree_h": 1.6,
+   "capacite_kg_jour": 2500,
+   "delai_jours": 1
+  },
+  {
+   "id": "route-terrasses",
+   "nom": "Route des terrasses",
+   "de": "bourg",
+   "vers": "terrasses",
+   "duree_h": 1.0,
+   "capacite_kg_jour": 9000,
+   "delai_jours": 1
+  },
+  {
+   "id": "route-plaine",
+   "nom": "Route de la plaine",
+   "de": "bourg",
+   "vers": "plaine",
+   "duree_h": 1.2,
+   "capacite_kg_jour": 6000,
+   "delai_jours": 1
+  },
+  {
+   "id": "route-rives",
+   "nom": "Route des rives",
+   "de": "bourg",
+   "vers": "rives",
+   "duree_h": 1.5,
+   "capacite_kg_jour": 4000,
+   "delai_jours": 1
+  }
+ ],
+ "biens": {
+  "depot": {
+   "nom": "Entrepôt régional du Bourg",
+   "type": "entrepot",
+   "commune": "bourg",
+   "capacite_stockage_kg": 300000,
+   "stock_initial_kg": 150000,
+   "capacite_passage_kg_jour": 1200,
+   "description": "Dépôt régional. Sa capacité de passage borne les sorties quotidiennes vers les communes."
+  },
+  "secours": {
+   "nom": "Réserve de secours des Rives",
+   "type": "reserve_secours",
+   "commune": "rives",
+   "capacite_stockage_kg": 36000,
+   "stock_initial_kg": 30000,
+   "capacite_passage_kg_jour": 600,
+   "description": "Stock de secours tenu par Les Rives pour la région."
+  },
+  "reserve_eau": {
+   "nom": "Réserve amont de La Source",
+   "type": "reserve_eau",
+   "commune": "source",
+   "capacite_m3": 30000,
+   "volume_initial_m3": 24000,
+   "volume_minimal_m3": 4000,
+   "lacher_max_m3_jour": 2600,
+   "description": "Retenue en amont. Elle soutient le débit de la rivière en saison sèche."
+  },
+  "atelier": {
+   "nom": "Atelier du Bourg",
+   "type": "atelier",
+   "commune": "bourg",
+   "description": "Atelier d'entretien des équipements de la région."
+  }
+ },
+ "champs": [
+  {
+   "id": "terrasses-cereales",
+   "nom": "Terrasses céréalières",
+   "commune": "terrasses",
+   "culture": "céréales",
+   "surface_ha": 33,
+   "rendement_kg_ha": 9000,
+   "plantation_jour": -120,
+   "maturite_jour": 100,
+   "cycle_jours": 365,
+   "besoin_eau_m3_ha_jour": 18,
+   "irrigue": true,
+   "part_irrigable": 0.8,
+   "soin_h_ha_jour": 6.5
+  },
+  {
+   "id": "plaine-ete",
+   "nom": "Maraîchage d'été de la Plaine",
+   "commune": "plaine",
+   "culture": "légumes d'été",
+   "surface_ha": 6,
+   "rendement_kg_ha": 10000,
+   "plantation_jour": 10,
+   "maturite_jour": 150,
+   "cycle_jours": 365,
+   "besoin_eau_m3_ha_jour": 45,
+   "irrigue": true,
+   "part_irrigable": 1.0,
+   "soin_h_ha_jour": 14
+  },
+  {
+   "id": "plaine-arriere-saison",
+   "nom": "Cultures d'arrière-saison de la Plaine",
+   "commune": "plaine",
+   "culture": "légumes d'arrière-saison",
+   "surface_ha": 3.2,
+   "rendement_kg_ha": 10000,
+   "plantation_jour": 200,
+   "maturite_jour": 320,
+   "cycle_jours": 365,
+   "besoin_eau_m3_ha_jour": 34,
+   "irrigue": true,
+   "part_irrigable": 1.0,
+   "soin_h_ha_jour": 12
+  },
+  {
+   "id": "rives-jardins",
+   "nom": "Jardins des Rives",
+   "commune": "rives",
+   "culture": "jardins vivriers",
+   "surface_ha": 4,
+   "rendement_kg_ha": 10000,
+   "plantation_jour": 20,
+   "maturite_jour": 160,
+   "cycle_jours": 365,
+   "besoin_eau_m3_ha_jour": 42,
+   "irrigue": true,
+   "part_irrigable": 1.0,
+   "soin_h_ha_jour": 14
+  }
+ ],
+ "meteo": {
+  "debit_m3_jour": {
+   "moyen": 1500,
+   "amplitude_saison": 0.55,
+   "jour_creux": 150,
+   "bruit": 0.12
+  },
+  "pluie": {
+   "mm_jour_moyen": 2.1,
+   "amplitude_saison": 0.3,
+   "probabilite_jour_pluvieux": 0.36
+  },
+  "episodes": [
+   {
+    "type": "secheresse",
+    "nom": "Sécheresse d'été",
+    "debut_jour": 62,
+    "fin_jour": 195,
+    "facteur_debit": 0.2,
+    "facteur_pluie": 0.15,
+    "transition_jours": 12
+   }
+  ]
+ }
+}
