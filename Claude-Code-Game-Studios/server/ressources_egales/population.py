@@ -87,7 +87,7 @@ def creer_etat_initial(scenario: dict, graine: int) -> dict:
                 h["naissance"].append(-(age * 365 + rng.randrange(365)))
                 h["foyer"].append(fi)
                 if 16 <= age < 75:
-                    h["metier"].append(_tirer_metier(rng, c["metiers"]))
+                    h["metier"].append(-1)  # réparti par quota une fois la commune peuplée
                     h["debut_metier"].append(-rng.randrange(0, max(1, (age - 16) * 365 + 1)))
                 else:
                     h["metier"].append(0)
@@ -103,8 +103,18 @@ def creer_etat_initial(scenario: dict, graine: int) -> dict:
                 f[k].append(0.0)
             f["trajets"].append(0)
             pop += taille
-        # Quelques liens de départ entre voisins de la même commune.
         habitants = [hi for fi in range(debut_foyers, len(f["commune"])) for hi in f["membres"][fi]]
+        # Métiers répartis par quota : les parts de la commune sont tenues à toute échelle.
+        actifs = [hi for hi in habitants if h["metier"][hi] == -1]
+        rng.shuffle(actifs)
+        seuils, cumul = [], 0.0
+        for nom in METIERS[1:]:
+            cumul += c["metiers"][nom]
+            seuils.append(cumul)
+        for rang, hi in enumerate(actifs):
+            x = (rang + 0.5) / len(actifs)
+            h["metier"][hi] = next((i for i, s in enumerate(seuils, start=1) if x < s), len(seuils))
+        # Quelques liens de départ entre voisins de la même commune.
         for _ in range(len(habitants) // 2):
             a, b = rng.choice(habitants), rng.choice(habitants)
             if a != b and h["foyer"][a] != h["foyer"][b] and b not in h["liens"][a] and len(h["liens"][a]) < 4:

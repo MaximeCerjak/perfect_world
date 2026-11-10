@@ -84,6 +84,7 @@ class Contexte:
         self.f_libre = [0.0] * nf
         self.f_adultes = [0] * nf
         self.f_soin = [0.0] * nf
+        self.f_facteur = [1.0] * nf
         self.f_type = [0] * nf
         naissance, metier, debut = h["naissance"], h["metier"], h["debut_metier"]
         for fi in range(nf):
@@ -126,6 +127,7 @@ class Contexte:
             self.f_besoin[fi] = n * besoin_kg
             self.f_adultes[fi] = adultes
             self.f_soin[fi] = soin
+            self.f_facteur[fi] = facteur
             self.f_libre[fi] = max(0.0, dispo - voulu * facteur - soin - ravit)
             if travail:
                 self.f_voyageur[fi] = travail[0][0]

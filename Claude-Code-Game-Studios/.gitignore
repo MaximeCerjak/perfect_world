@@ -183,3 +183,4 @@ dist-single/
 *.db
 *.db-wal
 *.db-shm
+data/demo/
