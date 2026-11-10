@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => ({
   // The game's page only: other pages in the project (one-shots in prototypes/)
   // are not scanned for packages.
   optimizeDeps: { entries: ['index.html'] },
+  // En développement, l'API est servie par `python -m ressources_egales servir`.
+  server: { proxy: { '/api': 'http://127.0.0.1:8000' } },
   build: {
     outDir: mode === 'single' ? 'dist-single' : 'dist',
     emptyOutDir: true,

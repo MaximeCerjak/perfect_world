@@ -1,16 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ressources égales</title>
-<style>
-  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
-  canvas { display: block; margin: 0 auto; touch-action: none; }
-</style>
 </head>
 <body>
-<canvas id="game"></canvas>
+<header class="barre">
+  <a class="marque" href="#/carte"><strong>Ressources égales</strong><small>région pilote</small></a>
+  <label class="monde"><span>Trajectoire</span><select id="monde" aria-label="Trajectoire affichée"></select></label>
+  <nav class="onglets" aria-label="Sections">
+    <a href="#/carte">Carte</a>
+    <a href="#/observation">Observation</a>
+    <a href="#/moi" id="mien">Retrouver mon humain</a>
+  </nav>
+</header>
+<main>
+  <section class="scene" aria-labelledby="titre-scene">
+    <h1 id="titre-scene">Carte de la région</h1>
+    <div id="cadre">
+      <canvas id="game" role="img" aria-label="Carte de la région"></canvas>
+      <div id="etiquettes"></div>
+    </div>
+    <div class="temps">
+      <button id="lecture" type="button" aria-label="Faire défiler les jours">▶</button>
+      <input id="jour" type="range" min="1" max="365" value="1" aria-label="Jour affiché">
+      <output id="date" for="jour"></output>
+    </div>
+    <p class="aide">Flèches ← → : jour précédent ou suivant · Espace : défilement · Échap : retour à la carte</p>
+  </section>
+  <section class="panneau" id="contenu" aria-live="polite" tabindex="-1"></section>
+</main>
 <script type="module" src="./src/main.ts"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
-  "name": "web-game",
+  "name": "ressources-egales",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "engines": {
     "node": "^22.12 || ^24 || >=26"
@@ -10,10 +10,16 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "build:single": "tsc --noEmit && vite build --mode single",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "npm run test:engine && npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
     "test:e2e": "npm run build:single && playwright test",
-    "smoke": "npm run build:single && playwright test --grep @boot"
+    "smoke": "npm run build:single && playwright test --grep @boot",
+    "demo": "rm -rf data/demo && node tools/demo-si-absente.mjs",
+    "predev": "node tools/demo-si-absente.mjs",
+    "prebuild": "node tools/demo-si-absente.mjs",
+    "prebuild:single": "node tools/demo-si-absente.mjs",
+    "test:engine": "python3 -m unittest discover -s tests/engine",
+    "serve": "PYTHONPATH=server python3 -m ressources_egales servir"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
