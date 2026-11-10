@@ -19,13 +19,13 @@ async function ouvrir(page: Page, query: string, route = ''): Promise<string[]> 
   return erreurs;
 }
 
-test('démarre sur la carte de la région, sans erreur @boot', async ({ page }) => {
+test('démarre sur la carte de la vallée, sans erreur @boot', async ({ page }) => {
   const erreurs = await ouvrir(page, 'manual=1');
   expect(await page.evaluate(() => window.game!.scene)).toBe('carte');
   expect((await etat(page)).source).toBe('demo');
   const taille = await page.locator('#game').boundingBox();
   expect(taille && taille.width >= 360 && taille.height >= 232).toBe(true);
-  await expect(page.locator('#etiquettes a.commune')).toHaveCount(5);
+  await expect(page.locator('#etiquettes a.nom')).toHaveCount(5);
   expect(erreurs).toEqual([]);
 });
 
@@ -42,45 +42,54 @@ test('un parcours scripté se répète à l’identique', async ({ page }) => {
   expect(await parcours()).toEqual(premier);
 });
 
+test('la page prend les tons de la saison affichée', async ({ page }) => {
+  await ouvrir(page, 'manual=1&monde=C&jour=20');
+  const ton = (): Promise<string> => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--t4').trim());
+  const printemps = await ton();
+  await page.evaluate(() => { for (let i = 0; i < 6; i++) window.game!.press('PageDown'); });
+  expect(await ton()).not.toBe(printemps);
+  await expect(page.locator('#date')).toContainText('jour 200');
+});
+
 test('d’un fait de la commune, on remonte jusqu’au droit acquis sur l’entrepôt', async ({ page }) => {
   const erreurs = await ouvrir(page, 'manual=1&monde=C', 'commune/plaine');
-  await page.locator('.fait a', { hasText: 'ournée' }).first().click();
-  await expect(page.locator('.entete h2')).toContainText(/ournée/);
+  await page.locator('.faits a', { hasText: 'ournée' }).first().click();
+  await expect(page.locator('.carnet h2')).toContainText(/ournée/);
   const causes = page.locator('.causes');
   await expect(causes).toContainText('Livraison partielle');
-  await expect(causes).toContainText('La capacité commune de l’entrepôt ne suffit plus'.replace('’', "'"));
+  await expect(causes).toContainText("La capacité commune de l'entrepôt ne suffit plus");
   await expect(causes).toContainText('Un droit est acquis');
   expect(erreurs).toEqual([]);
 });
 
-test('le journal d’un humain s’ouvre depuis la commune et tient dans 24 heures', async ({ page }) => {
+test('le journal d’un humain s’ouvre depuis la commune et sa journée compte 24 cases', async ({ page }) => {
   await ouvrir(page, 'manual=1&monde=C', 'commune/bourg');
-  await page.locator('.humains a.humain').first().click();
+  await page.locator('.gens a').first().click();
   await expect(page.locator('.identite')).toContainText('H-');
-  await expect(page.locator('.journee')).toBeVisible();
-  expect((await page.locator('.journee').boundingBox())!.height).toBeGreaterThan(20);
+  await expect(page.locator('.heures i')).toHaveCount(24);
   await page.locator('button.action', { hasText: 'Suivre' }).click();
   await expect(page.locator('#mien')).toHaveText('Mon humain');
 });
 
-test('les cas A et B montrent un entrepôt aux mêmes conditions d’usage, le cas C un accès réservé', async ({ page }) => {
+test('les mondes A et B gardent l’entrepôt ouvert, le monde C le réserve, et la scène des trois mondes les compare', async ({ page }) => {
   await ouvrir(page, 'manual=1&monde=B&jour=300', 'bien/depot');
-  await expect(page.locator('#contenu .badges')).toContainText('Accès commun');
-  await expect(page.locator('.droits')).toContainText('laissée en accès commun');
-  await page.selectOption('#monde', 'C');
-  await expect(page.locator('#contenu .badges')).toContainText('Accès réservé à 40 %');
-  await page.goto(build('manual=1&monde=C', 'observation'));
-  await expect(page.locator('#contenu')).toContainText('B par rapport à A : mêmes conditions d’usage, mêmes résultats.');
-  await expect(page.locator('#contenu table').first()).toBeVisible();
+  await expect(page.locator('#contenu')).toContainText('Accès commun.');
+  await expect(page.locator('.droits')).toContainText('laissée ouverte à tous');
+  await page.locator('#mondes button[data-monde="C"]').click();
+  await expect(page.locator('#contenu')).toContainText('Accès réservé à 40 %');
+  await page.goto(build('manual=1&monde=C', 'mondes'));
+  await expect(page.locator('#contenu')).toContainText('tout se passe comme dans le monde A');
+  await expect(page.locator('#etiquettes button.bande')).toHaveCount(3);
+  await expect(page.locator('#contenu .vies a').first()).toBeVisible();
 });
 
 test('sur téléphone, la carte tient dans l’écran et les communes restent accessibles au clavier', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await ouvrir(page, 'manual=1&monde=C&jour=300');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const lien = page.locator('#etiquettes a.commune', { hasText: 'La Plaine' });
+  const lien = page.locator('#etiquettes a.nom', { hasText: 'La Plaine' });
   await lien.focus();
   await page.keyboard.press('Enter');
-  await expect(page.locator('.entete h2')).toHaveText('La Plaine');
+  await expect(page.locator('.carnet h2')).toHaveText('La Plaine');
   expect((await etat(page)).commune).toBe('plaine');
 });

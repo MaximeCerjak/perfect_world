@@ -18,7 +18,7 @@ Le dossier de cadrage complet (`../Dossier_de_cadrage_Ressources_egales.docx`, v
 **Intent:** no goal to reach · soft or no failure · outside the window (le monde avance entre deux visites) — *from the dossier*
 
 ## Look and references
-- Look: pixel art 2D vu du dessus, dessiné par le code ; verts sourds pour les cultures, terres claires pour les chemins, bleu plus froid pour l'eau ; les saisons changent les teintes, les cultures et le niveau de la rivière ; un accès réservé se lit à la grille des portes, à un pictogramme et à un libellé.
+- Look: linogravure saisonnière — tout (carte, page, texte) tient dans cinq tons qui changent avec la saison du jour ; deux encres hors saison, le bleu de l'eau et le magenta des droits réservés ; aplats et trame, pas de cadre. Détail dans `design/art-bible.md`.
 - References: 1 sur 8 milliards (suivre une vie), Wyrmfell et Followheim (un personnage par abonné) — cités par le dossier.
 - View: 2D · Camera: vue du dessus fixe, trois échelles (région, commune, humain), canevas de 360 × 232 agrandi par un facteur entier ; tuiles de 16 px, humains de 16 × 24 px.
 
@@ -41,7 +41,7 @@ Il n'y a pas d'échec pour le participant. La tension vient du monde : une séch
 - [x] Moteur journalier : eau, alimentation, énergie et transport, temps humain, droits d'accès ; bilans vérifiés chaque jour
 - [x] Rejeu, reprise après interruption, comparaison A/B/C avec écarts reliés à leurs causes
 - [x] Entrées de test : inscriptions (abonnement, message « NAÎTRE », désabonnement) et achats (confirmé, annulé, accès modifié), idempotentes
-- [x] Région visitable : carte, vue de commune, fiche et journal, fiche d'un bien, tableau d'observation
+- [x] Région visitable : la vallée, vue de commune, fiche et journal, fiche d'un bien, scène « trois mondes »
 - [ ] Parcours Instagram réel au clic sur « Suivre » (à prouver sur une page de test)
 - [ ] Service de paiement réel (phase 2, après décision d'ouverture)
 

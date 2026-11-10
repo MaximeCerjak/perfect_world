@@ -65,7 +65,7 @@ class Service:
             e = {"id": eid, "jour": jour, "date": recit.date(jour, jz), "lieu": lieu, "lieu_nom": noms["lieu"](lieu),
                  "type": type_, "foyer": foyer, "humain": humain, "humain2": humain2, "mesure": d["mesure"],
                  "causes": d["causes"]}
-            e["titre"], e["texte"] = recit.decrire(e, noms)
+            e["titre"], e["texte"] = (recit.accorder(x) for x in recit.decrire(e, noms))
             sortie.append(e)
         return sortie[-limite:] if limite else sortie
 

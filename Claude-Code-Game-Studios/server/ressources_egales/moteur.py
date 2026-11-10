@@ -344,8 +344,8 @@ def avancer_jour(etat: dict, ctx: Contexte, entrees: list[dict]) -> dict:
     for cid in region["ordre_eau"]:
         net = besoin_dom[cid] * (1 - retour)
         aval_dom -= net
-        prelev = max(0.0, min(besoin_dom[cid], pompe_cap[cid], (flux - eco) / (1 - retour) if flux > eco else 0.0,
-                              energie / kwh_m3))
+        # L'eau des foyers passe avant le seuil écologique, qui ne borne que l'irrigation.
+        prelev = max(0.0, min(besoin_dom[cid], pompe_cap[cid], flux / (1 - retour), energie / kwh_m3))
         energie -= prelev * kwh_m3
         usages_energie["pompage_domestique"] += prelev * kwh_m3
         eau_dom[cid] = prelev

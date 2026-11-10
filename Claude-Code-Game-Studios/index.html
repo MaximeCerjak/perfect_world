@@ -6,30 +6,33 @@
 <title>Ressources égales</title>
 </head>
 <body>
-<header class="barre">
-  <a class="marque" href="#/carte"><strong>Ressources égales</strong><small>région pilote</small></a>
-  <label class="monde"><span>Trajectoire</span><select id="monde" aria-label="Trajectoire affichée"></select></label>
+<header class="tete">
+  <a class="marque" href="#/carte">Ressources égales</a>
+  <div class="mondes" id="mondes" role="group" aria-label="Monde affiché"></div>
   <nav class="onglets" aria-label="Sections">
-    <a href="#/carte">Carte</a>
-    <a href="#/observation">Observation</a>
+    <a href="#/carte">La vallée</a>
+    <a href="#/mondes">Trois mondes</a>
     <a href="#/moi" id="mien">Retrouver mon humain</a>
   </nav>
 </header>
 <main>
   <section class="scene" aria-labelledby="titre-scene">
-    <h1 id="titre-scene">Carte de la région</h1>
+    <p class="quand" id="date" aria-live="off"></p>
+    <h1 id="titre-scene"></h1>
     <div id="cadre">
       <canvas id="game" role="img" aria-label="Carte de la région"></canvas>
       <div id="etiquettes"></div>
     </div>
     <div class="temps">
-      <button id="lecture" type="button" aria-label="Faire défiler les jours">▶</button>
-      <input id="jour" type="range" min="1" max="365" value="1" aria-label="Jour affiché">
-      <output id="date" for="jour"></output>
+      <button id="lecture" type="button" aria-label="Faire défiler les jours"></button>
+      <div class="ruban">
+        <canvas id="ruban" width="365" height="30" aria-hidden="true"></canvas>
+        <input id="jour" type="range" min="1" max="365" value="1" aria-label="Jour affiché">
+      </div>
     </div>
-    <p class="aide">Flèches ← → : jour précédent ou suivant · Espace : défilement · Échap : retour à la carte</p>
+    <p class="legende" id="legende"></p>
   </section>
-  <section class="panneau" id="contenu" aria-live="polite" tabindex="-1"></section>
+  <section class="carnet" id="contenu" aria-live="polite" tabindex="-1"></section>
 </main>
 <script type="module" src="./src/main.ts"></script>
 </body>
