@@ -1,50 +1,54 @@
 # Bible artistique — Ressources égales
 
-## Parti pris : une linogravure saisonnière
+## Parti pris : un paysage peint au pixel, vu du ciel, en plein écran
 
-Le monde est imprimé, pas illustré. À chaque instant, tout ce qui se voit (carte, page, texte, portraits) tient dans **une gamme de cinq tons** qui est celle de la saison du jour affiché. Changer de jour, c'est changer d'encre : la sécheresse jaunit la page entière, l'hiver la bleuit. On sent la saison avant de lire une ligne.
+Le jeu est une vallée, pas une page. Le monde occupe tout l'écran, sans marge ni cadre ; on s'y déplace à la caméra, on s'en approche pour voir vivre les habitants. L'interface est celle d'un jeu : quelques plaques sombres posées sur le paysage, un panneau qui ne s'ouvre que lorsqu'on touche quelque chose.
 
-Deux encres seulement échappent à la saison, parce que ce sont les deux sujets du jeu :
+Références de ton : les cartes illustrées en pixel art à vue plongeante — forêts en canopée, falaises à facettes, champs en patchwork, toits de tuile, eau nuancée.
 
-| Encre | Valeur | Réservée à |
-|---|---|---|
-| Bleu de l'eau | `#2a76b4` (reflet `#8fc5e8`) | la rivière, la retenue, le lac, l'eau d'irrigation, le débit sur le ruban |
-| Magenta du tampon | `#c81e5a` | un droit réservé, et rien d'autre : portes barrées de l'entrepôt, monde C, fil des causes qui remonte à l'achat |
+## Le monde
 
-Le magenta n'est jamais une couleur d'alerte générale. Une pénurie due à la sécheresse reste dans la gamme ; seule une conséquence d'un droit réservé prend le tampon.
+- **Une seule vallée continue** de 840 × 560 pixels (`src/monde/plan.ts`) : la retenue de La Source dans la montagne au nord-ouest, la rivière qui descend vers le lac des Rives au sud-est, Le Bourg au carrefour des chemins.
+- **Vue plongeante trois quarts** : on voit les toits et les façades sud. Lumière de l'ouest et du sud : faces claires vers le spectateur, ombres portées vers le bas à droite.
+- **Zoom entier** en pixels d'écran, jamais fractionné ; le plus large couvre toujours tout l'écran.
+- Habitants de 5 × 9 px sur la carte (portrait de 12 × 16 px dans la fiche) : leur échelle est celle des maisons. Le dossier de cadrage proposait 16 × 24 px « à valider » ; à cette taille ils écrasaient le paysage.
 
-## Les gammes (du ton 0, le plus sombre, au ton 4, le plus clair)
+## Matières
 
-| Saison | 0 | 1 | 2 | 3 | 4 |
-|---|---|---|---|---|---|
-| Printemps | `#14302a` | `#2c5a45` | `#5c9163` | `#a8c98c` | `#e6eecb` |
-| Été | `#1d3320` | `#41672d` | `#84a141` | `#c6d07c` | `#f1efc3` |
-| Sécheresse | `#3a2413` | `#7b4a1e` | `#b9832e` | `#e2bf69` | `#f8eaba` |
-| Automne | `#35202b` | `#703b34` | `#b36a3a` | `#e3a968` | `#f8e3be` |
-| Hiver | `#1b2234` | `#3c4a68` | `#7a8aa8` | `#bcc7d8` | `#eef2f6` |
+| Matière | Dessin |
+|---|---|
+| Prairie | quatre verts par saison, posés par l'éclairage du relief ; fond de vallée calme, brins épars, fleurs au printemps |
+| Roche | facettes anguleuses (cellules de Voronoï étirées), un ton par pan, fissures sombres ; neige en hiver |
+| Forêt | feuillus en houppes à trois tons, serrés du nord au sud ; conifères en pointe sur les hauteurs ; arbres nus en hiver |
+| Eau | trois bleus en nappes, reflets mobiles ; le lit de gravier et les rives de sable restent visibles quand le niveau baisse |
+| Champs | parallélogrammes en patchwork, sillons tous les trois pixels ; terrasses à murets à Les Terrasses |
+| Bâti | murs clairs, toits à deux tons et faîtage ; tuile au Bourg et à La Plaine, brun aux Terrasses, ardoise à La Source, chaume aux Rives |
 
-Rôles : 4 = papier (fond de page, murs, clairières) ; 3 = prairie ; 2 = terre travaillée ; 1 = toits, bois, rangs de culture ; 0 = texte, silhouettes, digues. La nuit descend la gamme d'un ou deux tons et allume les fenêtres au ton 4.
+## Saisons et heures
 
-## Règles de dessin
+Cinq palettes (`src/art/palette.ts`) : printemps vif et arbres en fleur, été profond, sécheresse jaunie, automne d'or et de rouille, hiver gris-vert sous la neige. Les bâtiments gardent leurs couleurs.
 
-- Canevas de 360 × 232, agrandi par un facteur entier en pixels d'écran. Tuiles de 16 px, humains dans une boîte de 16 × 24.
-- Aplats et **trame de Bayer** 4 × 4 ; aucun fondu, aucun contour noir, aucune couleur hors gamme.
-- Le monde n'a pas de cadre : ses bords se dissolvent dans la page par la trame.
-- Le relief se dit en courbes de niveau, comme sur une carte ; les chemins sont clairs et pointillés, l'eau pleine et bleue : on les distingue par la forme autant que par le ton.
-- Ce qui compte se lit dans le monde avant le texte : la jauge d'un grenier, les cinq portes de l'entrepôt (une par tranche de capacité, barrée de magenta quand elle est réservée), le lit clair d'une rivière basse, les rangs troués d'un champ sec, le fanion d'une tournée de secours.
-- Les habitants sont des silhouettes sombres à visage clair ; la coiffe suit l'activité, la taille suit l'âge. L'humain suivi porte un fanion.
+L'heure tourne : aube rosée, soir doré, nuit bleue ; les fenêtres s'allument, les cheminées fument quand il fait froid. La nuit passe trois fois plus vite que le jour, et s'arrête pendant le défilement de l'année.
 
-## Typographie
+## Ce que l'état du monde change à l'image
 
-Une seule famille, **Bricolage Grotesque** (variable). Titres et dates en graisse 800, chasse étroite ; le texte courant en 400, chasse normale. La date du jour est l'élément le plus gros de la page. Pas de capitales d'étiquette, pas de monospace.
+Tout ce qui compte se voit avant de se lire :
 
-## Page
+- **Droits réservés** : une couleur n'existe que pour eux, le rose vif `#d12a5c`. Portes grillées et bannières sur l'entrepôt, monde C, fil des causes dans le panneau, trait du ruban.
+- **Réserves** : sacs empilés devant chaque grenier, devant l'entrepôt et les silos de secours.
+- **Eau** : largeur de la rivière, rives découvertes du lac et de la retenue, rigoles d'irrigation pleines ou à sec.
+- **Cultures** : sol nu, pousses, vert plein, blé mûr ; culture sèche pâle et trouée.
+- **Entraide** : charrettes sur les chemins ; fanion blanc à croix pour une tournée de secours.
+- **Entretien** : la roue de la pompe s'arrête, un fanion jaune puis rouge la signale.
 
-- La page n'a ni barre, ni carte d'interface, ni tableau de bord : du texte posé sur le papier de la saison, à droite d'un monde sans cadre.
-- **Le ruban de l'année** remplace le curseur : une colonne par jour, la saison en bas, le débit en bleu, le stock de l'entrepôt en trait, les jours de droit réservé en magenta.
-- **Trois mondes** remplace le tableau comparatif : trois fois la même vallée le même jour, d'amont en aval. Les chiffres (jours de réserve) sont écrits dans le monde, en pixels. Le texte raconte ce qui diffère et propose des vies à suivre.
-- Les faits se suivent sur un fil vertical ; le fil devient magenta quand le fait tient au droit acquis.
+## Interface
+
+- Police **Jersey 10**, dessinée sur une grille de 10 px : toutes les tailles sont 20, 30 ou 40 px. La hiérarchie passe par la couleur (crème, or, gris doux), pas par la graisse.
+- Plaques `rgba(18, 24, 28, 0.86)`, bord net de 2 px, sans arrondi ni dégradé.
+- En haut à gauche la date ; en haut à droite les mondes A, B, C et trois entrées ; en bas la dernière dépêche et **le ruban de l'année** (saison, débit, stock de l'entrepôt, jours de droit réservé).
+- **Comparer** coupe l'écran en trois : le même endroit, le même jour, dans les trois mondes. On déplace les trois caméras ensemble.
+- La caméra accompagne l'humain dont la fiche est ouverte.
 
 ## Accessibilité
 
-Chaque état a une forme et un libellé en plus du ton. Texte à taille constante, hors du canevas. Tout lien est atteignable au clavier ; le ruban reste un curseur pour les lecteurs d'écran. Contraste du texte (ton 0 sur ton 4) supérieur à 10:1 dans les cinq gammes.
+Chaque état a une forme et un libellé en plus de sa couleur. Les noms des communes et des biens sont de vrais liens, atteignables au clavier ; le ruban reste un curseur pour les lecteurs d'écran. Déplacement au clavier (W A S D par position des touches, donc Z Q S D sur un clavier français), zoom + et −, jours aux flèches.

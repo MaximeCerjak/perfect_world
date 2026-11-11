@@ -121,6 +121,8 @@ function batiments(): Batiment[] {
       if (poses.some(o => gene(o, 5, 17)) || b.some(o => (o.commune === commune) && gene(o, 6, o.genre === 'entrepot' ? 30 : 20))) continue;
       if (CHEMINS.some(c => c.points.some(q => q[0] > x - 4 && q[0] < x + l + 4 && q[1] > y - 15 && q[1] < y + 4))) continue;
       if (PARCELLES.some(pa => coinsParcelle(pa).some(q => q[0] > x - 8 && q[0] < x + l + 8 && q[1] > y - 20 && q[1] < y + 8))) continue;
+      const dedans = (pa: Parcelle, qx: number, qy: number): boolean => { const [a, b2] = dansParcelle(pa, qx, qy); return a > -0.08 && a < 1.08 && b2 > -0.5 && b2 < 1.5; };
+      if (PARCELLES.some(pa => dedans(pa, x, y) || dedans(pa, x + l, y) || dedans(pa, x + l / 2, y - 8) || dedans(pa, x, y - 14) || dedans(pa, x + l, y - 14))) continue;
       if (rho(LAC, x + l, y) < 1.06 || RIVIERE.some(q => Math.abs(q[0] - x - l / 2) < l / 2 + 9 && Math.abs(q[1] - y + 6) < 16)) continue;
       poses.push({ genre: 'maison', commune, x, y, l, pignon: alea(g + 2, k) < 0.32, toit: alea(g + 3, k) < 0.78 ? s.toit : (s.toit + 1) % 4, mur: alea(g + 4, k) < 0.8 ? s.mur : (s.mur + 1) % 3, graine: g + k });
     }
@@ -131,6 +133,11 @@ function batiments(): Batiment[] {
 export const BATIMENTS: Batiment[] = batiments();
 export const maisonsDe = (commune: string): Batiment[] => BATIMENTS.filter(b => b.commune === commune && b.genre === 'maison');
 export const batiment = (genre: Genre, commune: string): Batiment | undefined => BATIMENTS.find(b => b.genre === genre && b.commune === commune);
+
+/** Où poser le nom d'une commune : sur sa place, là où se croisent ses chemins. */
+export function ancreNom(commune: string): Pt {
+  return [CENTRES[commune][0], CENTRES[commune][1] + 8];
+}
 
 /** Lieux nommés sur la carte ; `bien` renvoie à la fiche du bien quand il y en a une. */
 export interface Lieu { cle: string; commune: string; nom: string; x: number; y: number; bien?: string }

@@ -138,7 +138,7 @@ export function calqueJour(monde: string, region: Region, chrono: Chronologie, j
       if (!sillon && al < 0.07) col = clair;
       if (tons.nu > 0 && bruit(x / 6, y / 6, 81 + pa.variante) * 0.7 + al * 0.3 < tons.nu * 0.8) col = terre[al < 0.5 ? 0 : 1];
       if (pa.terrasse && v > 0.84) col = mur[v > 0.92 ? 0 : 1];
-      if (neige && al > 0.82) col = neige;
+      if (neige && al > 0.9) col = neige;
       d[o] = col[0]; d[o + 1] = col[1]; d[o + 2] = col[2]; d[o + 3] = 255;
     }
     c.putImageData(cj.img, 0, 0, x0, y0, x1 - x0 + 1, y1 - y0 + 1);

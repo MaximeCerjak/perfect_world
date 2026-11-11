@@ -9,7 +9,7 @@ import { lire, ouvrir } from './api';
 import { portrait as dessinerPortrait } from './art/sprites';
 import { fusionnerJournal, kg, matricule, mesuresDuJour, statutsCommune, type LigneJournal, type Statut } from './game/rules';
 import { clock, install, manual, params } from './hook';
-import { BATIMENTS, CENTRES, MONDE_H, MONDE_L, RETENUE, batiment, lieux, maisonsDe, type Pt } from './monde/plan';
+import { CENTRES, MONDE_H, MONDE_L, RETENUE, ancreNom, batiment, lieux, maisonsDe, type Pt } from './monde/plan';
 import { dessinerMonde, installer, type Habitant, type Silhouette, type Vue } from './monde/rendu';
 import type { Chronologie, Comparaison, DetailEvenement, Evenement, Fiche, FicheBien, FicheCourte, Monde, Observation, Region } from './types';
 import { dessinerRuban } from './vues/ruban';
@@ -180,7 +180,8 @@ function refaireEtiquettes(): void {
       else if (notables.length) a.append(el('i', {}, pres ? notables[0].libelle : notables.map(s => s.picto).join(' ')));
       a.setAttribute('aria-label', `${co.nom} : ${statuts.map(s => s.libelle).join(', ')}`);
       if (partage() && i > 0) a.tabIndex = -1;
-      poses.push({ noeud: a, x: CENTRES[co.id][0], y: CENTRES[co.id][1] + 30, tranche: i, ancre: 'centre' });
+      const [ax, ay] = ancreNom(co.id);
+      poses.push({ noeud: a, x: ax, y: ay, tranche: i, ancre: 'centre' });
     }
     for (const l of lieux()) {
       const marque = l.bien === 'depot' && reserve;
@@ -199,7 +200,13 @@ function placerEtiquettes(): void {
   for (const p of poses) {
     const tr = tranches[p.tranche];
     if (!tr) continue;
-    if (p.ancre === 'coin') { const [x, y] = ecran(tr, tr.vue.x, tr.vue.y); p.noeud.style.transform = `translate(${Math.round(x + 10)}px, ${Math.round(y + (innerWidth < 900 ? 54 : 70))}px)`; continue; }
+    if (p.ancre === 'coin') {
+      // Colonnes : sous la date, à gauche de la tranche. Bandes : à droite, sous le menu pour la première.
+      const [x, y] = ecran(tr, tr.vue.x, tr.vue.y);
+      if (cam.l >= cam.h) p.noeud.style.transform = `translate(${Math.round(x + 10)}px, ${Math.round(y + 112)}px)`;
+      else p.noeud.style.transform = `translate(${Math.round(innerWidth - 8)}px, ${Math.round(y + (p.tranche === 0 ? 60 : 8))}px) translate(-100%, 0)`;
+      continue;
+    }
     const dedans = p.x > tr.vue.x + 4 && p.x < tr.vue.x + tr.vue.l - 4 && p.y > tr.vue.y && p.y < tr.vue.y + tr.vue.h;
     p.noeud.style.display = dedans ? '' : 'none';
     if (dedans) { const [x, y] = ecran(tr, p.x, p.y); p.noeud.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px) translate(-50%, 0)`; }

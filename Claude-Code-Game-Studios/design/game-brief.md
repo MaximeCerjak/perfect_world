@@ -9,7 +9,7 @@ Le dossier de cadrage complet (`../Dossier_de_cadrage_Ressources_egales.docx`, v
 
 **Genre:** simulation sociale en ligne, à observer plus qu'à piloter.
 
-**Controls:** souris ou doigt sur la carte et les liens ; flèches ← → pour changer de jour, Espace pour faire défiler, Échap pour revenir à la carte ; tout lien est atteignable au clavier.
+**Controls:** glisser pour se déplacer, molette ou pincement pour zoomer, toucher un habitant, un bâtiment ou une commune pour l'ouvrir ; W A S D pour la caméra, flèches ← → pour changer de jour, Espace pour faire défiler, Échap pour fermer.
 
 **Question:** peut-on relier plusieurs communes et plusieurs ressources dans un même scénario, faire remonter leurs effets jusqu'au journal d'un humain, puis rejouer l'année avec d'autres droits d'accès et expliquer chaque écart ?
 
@@ -18,9 +18,9 @@ Le dossier de cadrage complet (`../Dossier_de_cadrage_Ressources_egales.docx`, v
 **Intent:** no goal to reach · soft or no failure · outside the window (le monde avance entre deux visites) — *from the dossier*
 
 ## Look and references
-- Look: linogravure saisonnière — tout (carte, page, texte) tient dans cinq tons qui changent avec la saison du jour ; deux encres hors saison, le bleu de l'eau et le magenta des droits réservés ; aplats et trame, pas de cadre. Détail dans `design/art-bible.md`.
+- Look: un paysage peint au pixel, vu du ciel en trois quarts, en plein écran : forêts en canopée, falaises à facettes, champs en patchwork, toits de tuile, eau nuancée ; cinq palettes de saison, jour et nuit ; interface de jeu en plaques sombres, police à pixels. Détail dans `design/art-bible.md`.
 - References: 1 sur 8 milliards (suivre une vie), Wyrmfell et Followheim (un personnage par abonné) — cités par le dossier.
-- View: 2D · Camera: vue du dessus fixe, trois échelles (région, commune, humain), canevas de 360 × 232 agrandi par un facteur entier ; tuiles de 16 px, humains de 16 × 24 px.
+- View: 2D · Camera: plongeante trois quarts, libre (glisser, zoom entier), sur un seul monde continu de 840 × 560 px ; habitants de 5 × 9 px.
 
 ## First minute
 La carte montre la rivière, les routes et cinq communes. Une étiquette signale une livraison partielle. On ouvre La Plaine : des habitants vont du logement aux champs. Un fait dit « 5 tournées de secours ». On l'ouvre : la chaîne « Pourquoi » remonte à la livraison partielle, à la capacité commune de l'entrepôt, puis au droit acquis le 29 juillet.
@@ -41,7 +41,7 @@ Il n'y a pas d'échec pour le participant. La tension vient du monde : une séch
 - [x] Moteur journalier : eau, alimentation, énergie et transport, temps humain, droits d'accès ; bilans vérifiés chaque jour
 - [x] Rejeu, reprise après interruption, comparaison A/B/C avec écarts reliés à leurs causes
 - [x] Entrées de test : inscriptions (abonnement, message « NAÎTRE », désabonnement) et achats (confirmé, annulé, accès modifié), idempotentes
-- [x] Région visitable : la vallée, vue de commune, fiche et journal, fiche d'un bien, scène « trois mondes »
+- [x] Région visitable en plein écran : vallée continue, caméra libre, fiche et journal, fiche d'un bien, écran partagé « trois mondes »
 - [ ] Parcours Instagram réel au clic sur « Suivre » (à prouver sur une page de test)
 - [ ] Service de paiement réel (phase 2, après décision d'ouverture)
 

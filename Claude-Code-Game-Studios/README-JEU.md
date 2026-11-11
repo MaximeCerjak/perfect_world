@@ -54,7 +54,7 @@ Essai de sensibilité, par exemple sans prêt d'équipe : `comparer --hypothese 
 npm test
 ```
 
-Lance les essais du moteur (`tests/engine`, 25), des règles du site (`tests/unit`, 12) et du navigateur (`tests/integration`, 7). Captures retenues : `production/qa/evidence/`.
+Lance les essais du moteur (`tests/engine`, 25), des règles et du plan du monde (`tests/unit`, 19) et du navigateur (`tests/integration`, 7). Captures retenues : `production/qa/evidence/`.
 
 ## Où sont les choses
 
@@ -62,7 +62,7 @@ Lance les essais du moteur (`tests/engine`, 25), des règles du site (`tests/uni
 |---|---|
 | `data/scenario/` | Territoire (pour 1 000 habitants), hypothèses (unité, nature, plage à tester), cas A/B/C |
 | `server/ressources_egales/` | `moteur.py` (une journée), `vie.py`, `bilans.py`, `monde.py` (reprise), `entrees.py`, `service.py` (vues), `api.py`, `recit.py` |
-| `src/` | Site : `game/rules.ts` (règles de lecture), `art/dessin.ts` (gammes, trame, formes), `vues/` (vallée, commune, trois mondes, ruban), `main.ts` |
+| `src/` | Site : `monde/` (plan de la vallée, relief, rendu), `art/` (palettes de saison, sprites), `game/rules.ts` (règles de lecture), `vues/ruban.ts`, `main.ts` (caméra, interface) |
 | `docs/architecture/` | Décisions d'architecture |
 
 ## Ce que le prototype mesure aujourd'hui (1 000 habitants, graine du dossier)
