@@ -2,38 +2,37 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ressources égales</title>
 </head>
 <body>
-<header class="tete">
+<canvas id="game" role="img" aria-label="La vallée vue du ciel"></canvas>
+<div id="etiquettes"></div>
+<header class="hud coin-date">
   <a class="marque" href="#/carte">Ressources égales</a>
-  <div class="mondes" id="mondes" role="group" aria-label="Monde affiché"></div>
-  <nav class="onglets" aria-label="Sections">
-    <a href="#/carte">La vallée</a>
-    <a href="#/mondes">Trois mondes</a>
-    <a href="#/moi" id="mien">Retrouver mon humain</a>
-  </nav>
+  <p id="date" aria-live="off"></p>
 </header>
-<main>
-  <section class="scene" aria-labelledby="titre-scene">
-    <p class="quand" id="date" aria-live="off"></p>
-    <h1 id="titre-scene"></h1>
-    <div id="cadre">
-      <canvas id="game" role="img" aria-label="Carte de la région"></canvas>
-      <div id="etiquettes"></div>
+<nav class="hud coin-menu" aria-label="Mondes et sections">
+  <div id="mondes" role="group" aria-label="Monde affiché"></div>
+  <a href="#/mondes" id="comparer">Comparer</a>
+  <a href="#/chronique" id="chronique">Chronique</a>
+  <a href="#/moi" id="mien">Mon humain</a>
+</nav>
+<div class="hud bas">
+  <a id="depeche" href="#/chronique"></a>
+  <div class="temps">
+    <button id="lecture" type="button" aria-label="Faire défiler les jours"></button>
+    <div class="ruban">
+      <canvas id="ruban" width="365" height="26" aria-hidden="true"></canvas>
+      <input id="jour" type="range" min="1" max="365" value="1" aria-label="Jour affiché">
     </div>
-    <div class="temps">
-      <button id="lecture" type="button" aria-label="Faire défiler les jours"></button>
-      <div class="ruban">
-        <canvas id="ruban" width="365" height="30" aria-hidden="true"></canvas>
-        <input id="jour" type="range" min="1" max="365" value="1" aria-label="Jour affiché">
-      </div>
-    </div>
-    <p class="legende" id="legende"></p>
-  </section>
-  <section class="carnet" id="contenu" aria-live="polite" tabindex="-1"></section>
-</main>
+    <div class="zoom"><button id="zoom-moins" type="button" aria-label="Voir de plus loin">−</button><button id="zoom-plus" type="button" aria-label="Voir de plus près">+</button></div>
+  </div>
+</div>
+<aside class="panneau" id="panneau" hidden>
+  <a class="fermer" id="fermer" href="#/carte" aria-label="Fermer et revenir à la vallée">×</a>
+  <div id="contenu" aria-live="polite" tabindex="-1"></div>
+</aside>
 <script type="module" src="./src/main.ts"></script>
 </body>
 </html>
