@@ -128,7 +128,7 @@
    "valeur": 220,
    "unite": "m³/jour",
    "nature": "hypothèse du prototype",
-   "effet": "Débit laissé au milieu naturel sous chaque prélèvement.",
+   "effet": "Débit laissé au milieu naturel par l'irrigation. L'eau des foyers passe avant ce seuil.",
    "plage": [
     120,
     400

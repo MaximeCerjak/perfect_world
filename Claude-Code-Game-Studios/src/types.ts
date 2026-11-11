@@ -11,6 +11,7 @@ export interface Region {
   biens: { id: string; nom: string; type: string; commune: string }[];
   champs: { id: string; nom: string; commune: string; culture: string; surface_ha: number }[];
   droits: Droit[];
+  episodes?: { type: string; nom: string; debut_jour: number; fin_jour: number }[];
 }
 export type Serie = number[];
 export interface Chronologie {

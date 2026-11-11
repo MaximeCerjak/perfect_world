@@ -19,7 +19,19 @@ POUR_JOURNAL = {
 # Événements de l'entrepôt et de la région, repris dans toutes les communes.
 PARTOUT = {"meteo.secheresse_debut", "meteo.secheresse_fin", "droit.acquis", "droit.annule",
            "droit.acces_modifie", "droit.expire", "depot.acces_limite", "depot.stock_bas"}
-ROUTINE = {"secours.tournee", "secours.prelevement", "foyer.trajet_secours"}
+ROUTINE = {"secours.tournee", "secours.prelevement", "foyer.trajet_secours", "stock.reserve_basse",
+           "entretien.reporte", "livraison.partielle", "depot.acces_limite"}
+CUMULS = {"secours.tournee": "tournées de secours", "secours.prelevement": "prélèvements dans la réserve de secours",
+          "foyer.trajet_secours": "trajets jusqu'aux Rives"}
+CONTRACTIONS = ((" de Le ", " du "), (" de Les ", " des "), (" à Le ", " au "), (" à Les ", " aux "),
+                ("À Le ", "Au "), ("À Les ", "Aux "))
+
+
+def accorder(texte: str) -> str:
+    """Contracte « de Le », « à Les »… devant les noms de communes."""
+    for avant, apres in CONTRACTIONS:
+        texte = texte.replace(avant, apres)
+    return texte
 
 
 def date(jour: int, jour_zero: dict) -> str:
@@ -185,9 +197,10 @@ def regrouper(entrees: list[dict]) -> list[dict]:
         sortie.append(e)
     for e in sortie:
         if e.get("nombre", 1) > 1:
-            nom = {"secours.tournee": "tournées de secours", "secours.prelevement": "prélèvements dans la réserve de secours",
-                   "foyer.trajet_secours": "trajets jusqu'aux Rives"}[e["type"]]
-            e["titre"] = f"{e['nombre']} {nom}"
-            e["texte"] = (f"Du jour {e['jour']} au jour {e['jour_fin']} : {_kg(e['kg'])} au total"
-                          + (f", {_h(e['heures'])} de trajet." if e["heures"] else "."))
+            if e["type"] in CUMULS:
+                e["titre"] = f"{e['nombre']} {CUMULS[e['type']]}"
+                e["texte"] = (f"Du jour {e['jour']} au jour {e['jour_fin']} : {_kg(e['kg'])} au total"
+                              + (f", {_h(e['heures'])} de trajet." if e["heures"] else "."))
+            else:
+                e["texte"] += f" Cela se répète {e['nombre'] - 1} fois jusqu'au jour {e['jour_fin']}."
     return sortie

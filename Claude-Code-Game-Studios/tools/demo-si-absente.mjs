@@ -2,9 +2,10 @@
 // trajectoires A, B et C d'une région de 600 habitants, simulées par le moteur
 // Python. Le site l'embarque pour fonctionner sans serveur.
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 
 if (!existsSync('data/demo/demo.json')) {
+  mkdirSync('data/demo', { recursive: true });
   const env = { ...process.env, PYTHONPATH: 'server' };
   for (const args of [['comparer', '--population', '600'], ['exporter', 'A', 'B', 'C']]) {
     const r = spawnSync('python3', ['-m', 'ressources_egales', '--db', 'data/demo/demo.db', ...args], { env, stdio: ['ignore', 'ignore', 'inherit'] });

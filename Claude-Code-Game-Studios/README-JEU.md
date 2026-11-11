@@ -1,6 +1,6 @@
 # Ressources égales — prototype de la région pilote
 
-Simulation sociale : cinq communes sur un même bassin versant, un moteur qui calcule chaque journée (eau, alimentation, énergie et transport, temps humain, droits d'accès) et un site en pixel art pour suivre une vie et remonter d'un fait à ses causes. Cadrage : `../Dossier_de_cadrage_Ressources_egales.docx` ; résumé : `design/game-brief.md`.
+Simulation sociale : cinq communes sur un même bassin versant, un moteur qui calcule chaque journée (eau, alimentation, énergie et transport, temps humain, droits d'accès) et un site en pixel art (direction artistique : `design/art-bible.md`) pour suivre une vie et remonter d'un fait à ses causes. Cadrage : `../Dossier_de_cadrage_Ressources_egales.docx` ; résumé : `design/game-brief.md`.
 
 ## Démarrer
 
@@ -54,7 +54,7 @@ Essai de sensibilité, par exemple sans prêt d'équipe : `comparer --hypothese 
 npm test
 ```
 
-Lance les essais du moteur (`tests/engine`, 25), des règles du site (`tests/unit`, 12) et du navigateur (`tests/integration`, 6). Captures retenues : `production/qa/evidence/`.
+Lance les essais du moteur (`tests/engine`, 25), des règles et du plan du monde (`tests/unit`, 19) et du navigateur (`tests/integration`, 7). Captures retenues : `production/qa/evidence/`.
 
 ## Où sont les choses
 
@@ -62,7 +62,7 @@ Lance les essais du moteur (`tests/engine`, 25), des règles du site (`tests/uni
 |---|---|
 | `data/scenario/` | Territoire (pour 1 000 habitants), hypothèses (unité, nature, plage à tester), cas A/B/C |
 | `server/ressources_egales/` | `moteur.py` (une journée), `vie.py`, `bilans.py`, `monde.py` (reprise), `entrees.py`, `service.py` (vues), `api.py`, `recit.py` |
-| `src/` | Site : `game/rules.ts` (règles de lecture), `art/` et `vues/` (pixel art), `main.ts` |
+| `src/` | Site : `monde/` (plan de la vallée, relief, rendu), `art/` (palettes de saison, sprites), `game/rules.ts` (règles de lecture), `vues/ruban.ts`, `main.ts` (caméra, interface) |
 | `docs/architecture/` | Décisions d'architecture |
 
 ## Ce que le prototype mesure aujourd'hui (1 000 habitants, graine du dossier)
@@ -80,3 +80,4 @@ Ces valeurs illustrent des règles à tester ; elles ne valent que pour les hypo
 - Données : ordres de grandeur et hypothèses ; aucune série réelle n'est encore importée.
 - La part réservée de l'entrepôt ne transporte rien pour les communes (hypothèse « flux privés du titulaire »).
 - L'énergie suit un ordre de priorité fixe : eau des foyers, conservation, transport, irrigation.
+- L'eau des foyers passe avant le seuil écologique, qui ne borne que l'irrigation.
